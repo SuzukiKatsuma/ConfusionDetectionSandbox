@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "ConfusionDetectionSandbox (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "ConfusionDetectionSandbox (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

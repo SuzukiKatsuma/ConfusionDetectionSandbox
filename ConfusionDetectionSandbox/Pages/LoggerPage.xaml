@@ -1,0 +1,140 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="ConfusionDetectionSandbox.Pages.LoggerPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:ConfusionDetectionSandbox"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="using:ConfusionDetectionSandbox.Models"
+    mc:Ignorable="d">
+
+    <Grid Padding="16" ColumnDefinitions="600" HorizontalAlignment="Center">
+        <Grid RowDefinitions="Auto, Auto, Auto, *">
+
+            <StackPanel Grid.Row="0" Spacing="8" Margin="0,0,0,16">
+                <TextBlock x:Name="TargetApplicationText" Text="Target App: Not selected" FontSize="20" FontWeight="SemiBold"/>
+                <ListView
+                    x:Name="RunningAppsListView"
+                    Height="150"
+                    SelectionMode="Single"
+                    SelectionChanged="RunningAppsListView_SelectionChanged"
+                    BorderThickness="1"
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                    CornerRadius="4"
+                    Padding="8">
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="models:ProcessInfo">
+                            <Grid ColumnSpacing="12" Padding="4">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="32"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Image 
+                                    Grid.Column="0"
+                                    Source="{x:Bind Icon, Mode=OneWay}"
+                                    Width="24" 
+                                    Height="24"
+                                    Stretch="Uniform"/>
+
+                                <TextBlock 
+                                    Grid.Column="1"
+                                    Text="{x:Bind DisplayName, Mode=OneWay}" 
+                                    FontSize="14"
+                                    VerticalAlignment="Center"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackPanel>
+
+            <StackPanel Grid.Row="1" Spacing="8" Margin="0,0,0,16">
+                <TextBlock x:Name="LoggingStatusText" Text="Logging Status: ⏸Stopped" FontSize="20" FontWeight="SemiBold"/>
+                <Button x:Name="ToggleLoggingButton" Content="Start" Click="ToggleLoggingButton_Click" Style="{StaticResource AccentButtonStyle}" HorizontalAlignment="Right"/>
+            </StackPanel>
+
+            <Grid Grid.Row="2" Margin="0,12,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Text="Recent Logs" FontWeight="SemiBold" Margin="0,0,0,8"/>
+
+                <Grid Grid.Row="1" 
+                    Background="{ThemeResource LayerFillColorDefaultBrush}" 
+                    Padding="12,4,0,4" 
+                    BorderThickness="1,1,1,0" 
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="150"/>
+                        <ColumnDefinition Width="50"/>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="70"/>
+                        <ColumnDefinition Width="70"/>
+                        <ColumnDefinition Width="70"/>
+                        <ColumnDefinition Width="90"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Column="0" Text="Timestamp" FontWeight="Bold" FontSize="12"/>
+                    <TextBlock Grid.Column="1" Text="PID" FontWeight="Bold" FontSize="12" Margin="8,0,0,0"/>
+                    <TextBlock Grid.Column="2" Text="Operation" FontWeight="Bold" FontSize="12" Margin="8,0,0,0"/>
+                    <TextBlock Grid.Column="3" Text="X" FontWeight="Bold" FontSize="12" Margin="8,0,0,0"/>
+                    <TextBlock Grid.Column="4" Text="Y" FontWeight="Bold" FontSize="12" Margin="8,0,0,0"/>
+                    <TextBlock Grid.Column="5" Text="Delta" FontWeight="Bold" FontSize="12" Margin="8,0,0,0"/>
+                    <TextBlock Grid.Column="6" Text="Key" FontWeight="Bold" FontSize="12" Margin="8,0,0,0"/>
+                </Grid>
+
+                <ListView x:Name="RecentLogsListView" 
+                    Grid.Row="2" 
+                    MinHeight="300" 
+                    BorderThickness="1" 
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                    Padding="0">
+
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                            <Setter Property="Padding" Value="0" />
+                            <Setter Property="MinHeight" Value="32" />
+                            <Setter Property="Margin" Value="0"/>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="models:InputLogViewItem">
+                            <Grid Height="32">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="150"/>
+                                    <ColumnDefinition Width="50"/>
+                                    <ColumnDefinition Width="100"/>
+                                    <ColumnDefinition Width="70"/>
+                                    <ColumnDefinition Width="70"/>
+                                    <ColumnDefinition Width="70"/>
+                                    <ColumnDefinition Width="90"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Border Grid.Column="1" BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}" BorderThickness="1,0,0,0" Margin="0,4"/>
+                                <Border Grid.Column="2" BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}" BorderThickness="1,0,0,0" Margin="0,4"/>
+                                <Border Grid.Column="3" BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}" BorderThickness="1,0,0,0" Margin="0,4"/>
+                                <Border Grid.Column="4" BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}" BorderThickness="1,0,0,0" Margin="0,4"/>
+                                <Border Grid.Column="5" BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}" BorderThickness="1,0,0,0" Margin="0,4"/>
+                                <Border Grid.Column="6" BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}" BorderThickness="1,0,0,0" Margin="0,4"/>
+
+                                <TextBlock Grid.Column="0" Text="{x:Bind TimestampUtc}" FontSize="11" VerticalAlignment="Center" Margin="12,0,4,0"/>
+                                <TextBlock Grid.Column="1" Text="{x:Bind TargetPid}" FontSize="11" VerticalAlignment="Center" Margin="8,0,4,0"/>
+                                <TextBlock Grid.Column="2" Text="{x:Bind Operation}" FontSize="11" VerticalAlignment="Center" Margin="8,0,4,0"/>
+                                <TextBlock Grid.Column="3" Text="{x:Bind X}" FontSize="11" VerticalAlignment="Center" Margin="8,0,4,0"/>
+                                <TextBlock Grid.Column="4" Text="{x:Bind Y}" FontSize="11" VerticalAlignment="Center" Margin="8,0,4,0"/>
+                                <TextBlock Grid.Column="5" Text="{x:Bind Delta}" FontSize="11" VerticalAlignment="Center" Margin="8,0,4,0"/>
+                                <TextBlock Grid.Column="6" Text="{x:Bind VirtualKey}" FontSize="11" VerticalAlignment="Center" Margin="8,0,4,0"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Grid>
+        </Grid>
+    </Grid>
+</Page>
